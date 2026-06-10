@@ -33,10 +33,10 @@ public class CalculatorForm : Form
             Padding = new Padding(14, 18, 14, 8)
         };
 
-        screen.Text = "6728";
+        screen.Text = "0";
         screen.Dock = DockStyle.Fill;
         screen.BackColor = Color.White;
-        screen.ForeColor = Color.Navy;
+        screen.ForeColor = Color.Black;
         screen.BorderStyle = BorderStyle.FixedSingle;
         screen.TextAlign = ContentAlignment.MiddleRight;
         screen.Font = new Font("Segoe UI", 26);
@@ -243,7 +243,7 @@ public class CalculatorForm : Form
             control.Enabled = enabled;
         }
 
-        screen.ForeColor = enabled ? Color.Navy : Color.Gray;
+        screen.ForeColor = enabled ? Color.Black : Color.Gray;
     }
 
     private void CalculatorForm_KeyDown(object? sender, KeyEventArgs e)

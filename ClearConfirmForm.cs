@@ -8,8 +8,8 @@ public class ClearConfirmForm : Form
 {
     public ClearConfirmForm()
     {
-        Text = "Підтвердження очищення";
-        Size = new Size(520, 165);
+        Text = "Очистка стану калькулятора";
+        Size = new Size(560, 170);
         FormBorderStyle = FormBorderStyle.FixedDialog;
         MaximizeBox = false;
         MinimizeBox = false;
@@ -17,26 +17,26 @@ public class ClearConfirmForm : Form
 
         Label question = new()
         {
-            Text = "Ви хочете очистити введені дані?",
+            Text = "Ви дійсно бажаєте очистити стан калькулятора?",
             AutoSize = false,
             TextAlign = ContentAlignment.MiddleCenter,
             Font = new Font("Segoe UI", 13),
-            ForeColor = Color.FromArgb(30, 80, 160),
+            ForeColor = Color.DarkOrange,
             Location = new Point(18, 18),
-            Size = new Size(470, 48)
+            Size = new Size(510, 48)
         };
 
         Button yes = new()
         {
             Text = "Так",
-            Location = new Point(165, 84),
+            Location = new Point(190, 84),
             Size = new Size(90, 30)
         };
 
         Button no = new()
         {
             Text = "Ні",
-            Location = new Point(275, 84),
+            Location = new Point(300, 84),
             Size = new Size(90, 30)
         };
 
