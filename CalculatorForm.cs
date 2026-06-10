@@ -305,6 +305,7 @@ public class CalculatorForm : Form
         Location = new Point(70, 70);
         Show();
         Application.DoEvents();
+        System.Threading.Thread.Sleep(300);
 
         SaveForm(Path.Combine(folder, "maxim_practice17_18_calculator.png"));
 
@@ -313,18 +314,17 @@ public class CalculatorForm : Form
         dialog.Location = new Point(Location.X + 75, Location.Y + 205);
         dialog.Show(this);
         Application.DoEvents();
+        System.Threading.Thread.Sleep(300);
 
         SaveControl(dialog, Path.Combine(folder, "maxim_practice17_18_dialog.png"));
-        SaveWithDialog(dialog, new Point(75, 205), Path.Combine(folder, "maxim_practice17_18_dialog_on_form.png"));
+        SaveScreenArea(Bounds, Path.Combine(folder, "maxim_practice17_18_dialog_on_form.png"));
         dialog.Close();
         Hide();
     }
 
     private void SaveForm(string path)
     {
-        using Bitmap bitmap = new(Width, Height);
-        DrawToBitmap(bitmap, new Rectangle(0, 0, Width, Height));
-        bitmap.Save(path);
+        SaveScreenArea(Bounds, path);
     }
 
     private static void SaveControl(Control control, string path)
@@ -345,5 +345,13 @@ public class CalculatorForm : Form
         using Graphics graphics = Graphics.FromImage(formImage);
         graphics.DrawImage(dialogImage, position);
         formImage.Save(path);
+    }
+
+    private static void SaveScreenArea(Rectangle area, string path)
+    {
+        using Bitmap bitmap = new(area.Width, area.Height);
+        using Graphics graphics = Graphics.FromImage(bitmap);
+        graphics.CopyFromScreen(area.Left, area.Top, 0, 0, area.Size);
+        bitmap.Save(path);
     }
 }
