@@ -21,8 +21,8 @@ public class CalculatorForm : Form
     {
         Text = "Калькулятор";
         StartPosition = FormStartPosition.CenterScreen;
-        Size = new Size(690, 550);
-        MinimumSize = new Size(640, 520);
+        Size = new Size(690, 500);
+        MinimumSize = new Size(640, 500);
         BackColor = Color.FromArgb(244, 246, 248);
         KeyPreview = true;
 
@@ -33,7 +33,7 @@ public class CalculatorForm : Form
             Padding = new Padding(14, 18, 14, 8)
         };
 
-        screen.Text = "0";
+        screen.Text = "6728";
         screen.Dock = DockStyle.Fill;
         screen.BackColor = Color.White;
         screen.ForeColor = Color.Black;
@@ -303,7 +303,10 @@ public class CalculatorForm : Form
     {
         StartPosition = FormStartPosition.Manual;
         Location = new Point(70, 70);
+        TopMost = true;
         Show();
+        BringToFront();
+        Activate();
         Application.DoEvents();
         System.Threading.Thread.Sleep(300);
 
@@ -311,13 +314,16 @@ public class CalculatorForm : Form
 
         using ClearConfirmForm dialog = new();
         dialog.StartPosition = FormStartPosition.Manual;
-        dialog.Location = new Point(Location.X + 75, Location.Y + 205);
+        dialog.Location = new Point(Location.X + 75, Location.Y + 188);
+        dialog.TopMost = true;
         dialog.Show(this);
+        dialog.BringToFront();
+        dialog.Activate();
         Application.DoEvents();
         System.Threading.Thread.Sleep(300);
 
         SaveControl(dialog, Path.Combine(folder, "maxim_practice17_18_dialog.png"));
-        SaveScreenArea(Bounds, Path.Combine(folder, "maxim_practice17_18_dialog_on_form.png"));
+        SaveCleanScreenshot(Bounds, Path.Combine(folder, "maxim_practice17_18_dialog_on_form.png"));
         dialog.Close();
         Hide();
     }
@@ -353,5 +359,29 @@ public class CalculatorForm : Form
         using Graphics graphics = Graphics.FromImage(bitmap);
         graphics.CopyFromScreen(area.Left, area.Top, 0, 0, area.Size);
         bitmap.Save(path);
+    }
+
+    private static void SaveCleanScreenshot(Rectangle area, string path)
+    {
+        using Bitmap window = new(area.Width, area.Height);
+        using (Graphics graphics = Graphics.FromImage(window))
+        {
+            graphics.CopyFromScreen(area.Left, area.Top, 0, 0, area.Size);
+        }
+
+        using Bitmap result = new(810, 626);
+        using Graphics canvas = Graphics.FromImage(result);
+        canvas.Clear(Color.White);
+        canvas.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+        Rectangle shadow = new(55, 38, area.Width, area.Height);
+        for (int i = 16; i >= 1; i--)
+        {
+            using Pen pen = new(Color.FromArgb(4, 0, 0, 0), i);
+            canvas.DrawRectangle(pen, shadow.X - i / 2, shadow.Y - i / 2, shadow.Width + i, shadow.Height + i);
+        }
+
+        canvas.DrawImage(window, shadow.Location);
+        result.Save(path);
     }
 }
